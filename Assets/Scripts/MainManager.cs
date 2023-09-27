@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
+    //public static MainManager Instance;
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -18,10 +21,18 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    //public Text mainBestScoreText;
+    public  TextMeshProUGUI mainBestScoreText;
+
+    public TextMeshProUGUI currentPlayer;
+
     
+
     // Start is called before the first frame update
     void Start()
     {
+        //LoadMenuData();
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -40,6 +51,9 @@ public class MainManager : MonoBehaviour
 
     private void Update()
     {
+        currentPlayer.SetText("Current Player : " + MenuManager.Instance.inputName);
+        UpDataBestScore();
+        
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -58,8 +72,11 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                
             }
         }
+
+
     }
 
     void AddPoint(int point)
@@ -70,7 +87,23 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        //MenuManager.Instance.SaveNameScore();
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+
+
+    public void UpDataBestScore()
+    {
+        mainBestScoreText.SetText("Best Score :" + MenuManager.Instance.bestScoreName +":"+ MenuManager.Instance.bestScore);
+
+        if(m_Points > MenuManager.Instance.bestScore)
+        {
+            MenuManager.Instance.bestScore = m_Points;
+            MenuManager.Instance.bestScoreName = MenuManager.Instance.inputName;
+            MenuManager.Instance.SaveNameScore();
+        }
+
     }
 }
