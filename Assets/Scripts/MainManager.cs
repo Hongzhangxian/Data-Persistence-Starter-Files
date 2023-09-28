@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using UnityEditor;
 
 public class MainManager : MonoBehaviour
 {
-    //public static MainManager Instance;
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -20,18 +20,21 @@ public class MainManager : MonoBehaviour
     private int m_Points;
     
     private bool m_GameOver = false;
-
-    //public Text mainBestScoreText;
     public  TextMeshProUGUI mainBestScoreText;
 
-    public TextMeshProUGUI currentPlayer;
+    public TextMeshProUGUI currentPlayerText;
+
+    private string currentPlayer;
+
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-        //LoadMenuData();
+        Debug.Log("LoadMain!");
+        currentPlayer = MenuManager.Instance.inputName;
+        currentPlayerText.SetText("Current Player : " + currentPlayer);
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -51,7 +54,7 @@ public class MainManager : MonoBehaviour
 
     private void Update()
     {
-        currentPlayer.SetText("Current Player : " + MenuManager.Instance.inputName);
+        
         UpDataBestScore();
         
         if (!m_Started)
@@ -71,8 +74,7 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);                
             }
         }
 
@@ -87,7 +89,6 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        //MenuManager.Instance.SaveNameScore();
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
@@ -103,7 +104,20 @@ public class MainManager : MonoBehaviour
             MenuManager.Instance.bestScore = m_Points;
             MenuManager.Instance.bestScoreName = MenuManager.Instance.inputName;
             MenuManager.Instance.SaveNameScore();
+            Debug.Log("Save Successfully");
         }
 
+    }
+
+    public void Quit()
+    {
+        MenuManager.Instance.SaveNameScore();
+        Debug.Log("Save Successfully");
+
+        #if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+        #else
+        Application.Quit();
+        #endif
     }
 }

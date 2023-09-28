@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,12 +14,11 @@ public class MenuManager : MonoBehaviour
     public string inputName;
 
     public string bestScoreName;
-    public TextMeshProUGUI displayName;
     public TextMeshProUGUI inputText;
     public TextMeshProUGUI menuBestScoreText;
-
-    public TextMeshProUGUI Placeholder;
     public int bestScore = 0;
+
+    public TMPro.TMP_InputField tmpInputField;
     
     
     private void Awake() {
@@ -31,6 +31,7 @@ public class MenuManager : MonoBehaviour
     DontDestroyOnLoad(gameObject);
 
     LoadNameBestScore();
+    Debug.Log("LoadMenu!");
 
     }
 
@@ -47,18 +48,20 @@ public class MenuManager : MonoBehaviour
     {
         if(inputName != null)
         {
-            Placeholder.SetText(inputName);
-            Placeholder.alpha = 255;
+            tmpInputField.text = inputName;
+        }
+        else
+        {
+            tmpInputField.text = null;
         }
 
         menuBestScoreText.SetText("Best Score :"+bestScoreName+" :"+bestScore);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        displayName.SetText("Welcome :"+ inputText.text);
         inputName = inputText.text;
         
     }
@@ -67,7 +70,8 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         SaveNameScore();
-        SceneManager.LoadSceneAsync(1);
+        Debug.Log("Save Successfully");
+        SceneManager.LoadScene(1);
     } 
 
     public void SaveNameScore()
@@ -96,20 +100,28 @@ public class MenuManager : MonoBehaviour
 
     public void ClearHistory()
     {
-        inputName =null;
+        inputName = null;
         bestScore = 0;
         bestScoreName = null;
-        Placeholder.SetText("Enter name");
-        Placeholder.alpha = 125;
+        tmpInputField.text = null;
         menuBestScoreText.SetText("Best Score : Nobody");
 
-
-        //string filePath = Path.Combine(Application.persistentDataPath, "/savefile.json");
+        //delete the svefile
         string filePath = Application.persistentDataPath + "/savefile.json";
 
-        if (File.Exists(filePath)) // 检查文件是否存在
+        if (File.Exists(filePath))
         {
-            File.Delete(filePath); // 删除文件
+            File.Delete(filePath); 
         }
+        return;
+    }
+
+    public void Quit()
+    {
+        #if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+        #else
+        Application.Quit();
+        #endif
     }
 }

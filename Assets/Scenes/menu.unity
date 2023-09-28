@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -175, y: -103}
+  m_AnchoredPosition: {x: -175, y: -96}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &18856696
@@ -574,11 +574,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputName: 
   bestScoreName: 
-  displayName: {fileID: 1660656544}
   inputText: {fileID: 596766203}
   menuBestScoreText: {fileID: 129074266}
-  Placeholder: {fileID: 1933558745}
   bestScore: 0
+  tmpInputField: {fileID: 727931626}
 --- !u!1 &323313809
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1318,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 605981724}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 169727501}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &605981724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,7 +1816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1660656543
 RectTransform:
   m_ObjectHideFlags: 0
