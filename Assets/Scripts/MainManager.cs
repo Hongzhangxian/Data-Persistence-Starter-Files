@@ -33,7 +33,10 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         Debug.Log("LoadMain!");
-        currentPlayer = MenuManager.Instance.inputName;
+        if(MenuManager.Instance.inputName != null)
+        {
+            currentPlayer = MenuManager.Instance.inputName;
+        }
         currentPlayerText.SetText("Current Player : " + currentPlayer);
 
         const float step = 0.6f;
@@ -102,7 +105,7 @@ public class MainManager : MonoBehaviour
         if(m_Points > MenuManager.Instance.bestScore)
         {
             MenuManager.Instance.bestScore = m_Points;
-            MenuManager.Instance.bestScoreName = MenuManager.Instance.inputName;
+            MenuManager.Instance.bestScoreName = currentPlayer;
             MenuManager.Instance.SaveNameScore();
             Debug.Log("Save Successfully");
         }

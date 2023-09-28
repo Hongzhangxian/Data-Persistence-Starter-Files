@@ -14,7 +14,6 @@ public class MenuManager : MonoBehaviour
     public string inputName;
 
     public string bestScoreName;
-    public TextMeshProUGUI inputText;
     public TextMeshProUGUI menuBestScoreText;
     public int bestScore = 0;
 
@@ -46,6 +45,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        
         if(inputName != null)
         {
             tmpInputField.text = inputName;
@@ -62,13 +62,13 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inputName = inputText.text;
         
     }
 
 
     public void StartGame()
     {
+        inputName = tmpInputField.text;
         SaveNameScore();
         Debug.Log("Save Successfully");
         SceneManager.LoadScene(1);
